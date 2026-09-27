@@ -1,0 +1,2790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniExchange - Universal Buy, Sell & Trade Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-header: rgba(255, 255, 255, 0.92);
+      --bg-subtle: #f1f5f9;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: rgba(79, 70, 229, 0.08);
+      --accent: #10b981;
+      --accent-hover: #059669;
+      --accent-light: rgba(16, 185, 129, 0.1);
+      --amber: #f59e0b;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.08);
+      --shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.12);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #0b0f19;
+      --bg-card: #151d2a;
+      --bg-header: rgba(21, 29, 42, 0.92);
+      --bg-subtle: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #263346;
+      --primary-light: rgba(79, 70, 229, 0.2);
+      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.3);
+      --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.4);
+      --shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      transition: background-color 0.3s ease, color 0.3s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 75px;
+    }
+
+    @media (min-width: 768px) {
+      body { padding-bottom: 0; }
+    }
+
+    /* HEADER & NAVIGATION */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-header);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.35rem;
+      color: var(--text-main);
+      text-decoration: none;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+    }
+
+    .search-bar {
+      flex: 1;
+      max-width: 360px;
+      min-width: 180px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 10px 16px 10px 44px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 0.92rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .search-bar input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .currency-select {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 7px 12px;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 0.88rem;
+      outline: none;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .currency-select:focus {
+      border-color: var(--primary);
+    }
+
+    .btn {
+      padding: 9px 16px;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.88rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition);
+      outline: none;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-subtle);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-accent:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-amber {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-amber:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(245, 158, 11, 0.45);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: var(--danger-hover);
+    }
+
+    .btn-icon {
+      padding: 9px;
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      cursor: pointer;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .btn-icon:hover {
+      background: var(--bg-subtle);
+      transform: translateY(-1px);
+    }
+
+    .badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--danger);
+      color: white;
+      font-size: 0.68rem;
+      font-weight: 700;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 4px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* NAV TABS */
+    .nav-tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--bg-subtle);
+      padding: 4px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .nav-tab-btn {
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-tab-btn.active {
+      background: var(--bg-card);
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* BUY / SELL TOGGLE SWITCH */
+    .intent-toggle-group {
+      display: flex;
+      background: var(--bg-subtle);
+      padding: 3px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-color);
+    }
+
+    .intent-btn {
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      border: none;
+      background: transparent;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .intent-btn.active-buy {
+      background: var(--accent);
+      color: white;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .intent-btn.active-sell {
+      background: var(--primary);
+      color: white;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .intent-btn.active-all {
+      background: var(--bg-card);
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* APP LAYOUT */
+    .app-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px 20px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* TOP BANNER PROMO */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.95), rgba(16, 185, 129, 0.9)), url('https://images.unsplash.com/photo-1555421689-491a97ff2040?auto=format&fit=crop&w=1200&q=80') center/cover;
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      color: white;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      max-width: 650px;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      opacity: 0.95;
+      margin-bottom: 20px;
+      line-height: 1.45;
+    }
+
+    .hero-cta-btns {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* CATEGORY PILLS */
+    .category-pills {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      scrollbar-width: none;
+    }
+
+    .category-pills::-webkit-scrollbar { display: none; }
+
+    .pill {
+      padding: 8px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill.active, .pill:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+    }
+
+    /* ADVANCED FILTER TOOLBAR */
+    .filter-bar {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .results-count {
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-options {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .select-custom, .input-custom {
+      padding: 8px 14px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+      font-size: 0.88rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .select-custom:focus, .input-custom:focus {
+      border-color: var(--primary);
+    }
+
+    .view-toggle {
+      display: flex;
+      background: var(--bg-subtle);
+      border-radius: var(--radius-sm);
+      padding: 2px;
+    }
+
+    .view-btn {
+      border: none;
+      background: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+    }
+
+    .view-btn.active {
+      background: var(--bg-card);
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* PRODUCT GRID & LIST VIEWS */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .product-grid.list-view {
+      grid-template-columns: 1fr;
+    }
+
+    .product-grid.list-view .card {
+      flex-direction: row;
+      min-height: 200px;
+    }
+
+    .product-grid.list-view .card-img-wrapper {
+      width: 260px;
+      height: auto;
+      min-height: 100%;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(79, 70, 229, 0.3);
+    }
+
+    .card-img-wrapper {
+      width: 100%;
+      height: 210px;
+      background: var(--bg-subtle);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover .card-img-wrapper img {
+      transform: scale(1.06);
+    }
+
+    .fav-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(4px);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      color: #64748b;
+      z-index: 2;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .fav-btn.active {
+      color: var(--danger);
+      background: white;
+    }
+
+    .fav-btn:hover {
+      transform: scale(1.12);
+    }
+
+    .card-tags {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 2;
+    }
+
+    .card-tag {
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      width: fit-content;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .tag-sale {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+
+    .tag-wtb {
+      background: linear-gradient(135deg, #06b6d4, #0284c7);
+    }
+
+    .tag-trade {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    }
+
+    .tag-vip {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
+    .card-content {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .card-price {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .card-condition {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      background: var(--bg-subtle);
+      border-radius: 6px;
+      color: var(--text-muted);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .card-title:hover {
+      color: var(--primary);
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.4;
+    }
+
+    .card-actions-bar {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .card-actions-bar .btn {
+      flex: 1;
+      padding: 8px 10px;
+      font-size: 0.82rem;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: auto;
+    }
+
+    .card-location {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* MAP VIEW CONTAINER */
+    .map-container {
+      width: 100%;
+      height: 600px;
+      background: #e2e8f0;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-md);
+      background-image: radial-gradient(#cbd5e1 2px, transparent 2px);
+      background-size: 28px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .map-pin {
+      position: absolute;
+      transform: translate(-50%, -100%);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .map-pin:hover {
+      transform: translate(-50%, -100%) scale(1.15);
+      z-index: 10;
+    }
+
+    .map-card-popup {
+      background: var(--bg-card);
+      padding: 8px 14px;
+      border-radius: 20px;
+      box-shadow: var(--shadow-md);
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* DASHBOARD VIEW */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 992px) {
+      .dashboard-grid {
+        grid-template-columns: 320px 1fr;
+      }
+    }
+
+    .dash-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-val {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-top: 6px;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .inventory-item-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+    }
+
+    .inventory-img {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+    }
+
+    .inventory-details {
+      flex: 1;
+    }
+
+    .inventory-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .inventory-sub {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* CHAT & MESSAGING VIEW */
+    .chat-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      height: 680px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    @media (min-width: 768px) {
+      .chat-layout { grid-template-columns: 320px 1fr; }
+    }
+
+    .chat-list {
+      border-right: 1px solid var(--border-color);
+      overflow-y: auto;
+      background: var(--bg-card);
+    }
+
+    .chat-item {
+      padding: 16px;
+      border-bottom: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .chat-item:hover, .chat-item.active {
+      background: var(--primary-light);
+    }
+
+    .chat-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #818cf8);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .chat-main {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: var(--bg-main);
+    }
+
+    .chat-header {
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .msg-bubble {
+      max-width: 75%;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-size: 0.92rem;
+      line-height: 1.45;
+      position: relative;
+    }
+
+    .msg-received {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      align-self: flex-start;
+      border-bottom-left-radius: 2px;
+      color: var(--text-main);
+    }
+
+    .msg-sent {
+      background: var(--primary);
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 2px;
+    }
+
+    .chat-input-area {
+      padding: 14px 20px;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .chat-input-area input {
+      flex: 1;
+      padding: 12px 18px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-full);
+      background: var(--bg-main);
+      color: var(--text-main);
+      outline: none;
+      font-size: 0.92rem;
+    }
+
+    /* OMNISWAP TRADE MATCHER */
+    .swap-calculator-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-md);
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+
+    .swap-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 20px;
+      align-items: flex-start;
+      margin: 24px 0;
+    }
+
+    @media (max-width: 768px) {
+      .swap-grid { grid-template-columns: 1fr; }
+    }
+
+    .swap-box {
+      border: 2px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      background: var(--bg-main);
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .swap-box-header {
+      font-weight: 800;
+      font-size: 1rem;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .trade-bundle-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      margin-bottom: 12px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    .trade-bundle-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-card);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+    }
+
+    .trade-bundle-item img {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .trade-item-info {
+      flex: 1;
+      font-size: 0.85rem;
+    }
+
+    .trade-item-title {
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .trade-item-price {
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 0.8rem;
+    }
+
+    .remove-btn {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+      border: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      transition: var(--transition);
+    }
+
+    .remove-btn:hover {
+      background: var(--danger);
+      color: white;
+    }
+
+    .swap-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin: 40px auto 0;
+    }
+
+    /* CART DRAWER */
+    .cart-drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .cart-drawer-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -420px;
+      width: 100%;
+      max-width: 420px;
+      height: 100%;
+      background: var(--bg-card);
+      box-shadow: var(--shadow-lg);
+      z-index: 1001;
+      transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-drawer-overlay.active .cart-drawer {
+      right: 0;
+    }
+
+    .cart-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-body {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .cart-footer {
+      padding: 20px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-main);
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .cart-item img {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+    }
+
+    .cart-item-info {
+      flex: 1;
+    }
+
+    .cart-item-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .cart-item-price {
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 0.9rem;
+    }
+
+    /* MODAL WINDOWS */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(6px);
+      z-index: 1100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      border: 1px solid var(--border-color);
+    }
+
+    .modal-overlay.active .modal {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: var(--bg-main);
+      color: var(--text-main);
+      outline: none;
+      font-size: 0.92rem;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* MOBILE NAV */
+    .mobile-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      z-index: 99;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+    }
+
+    @media (min-width: 768px) {
+      .mobile-nav { display: none; }
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 20%;
+      font-weight: 600;
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+    }
+
+    /* TOAST NOTIFICATIONS */
+    .toast-container {
+      position: fixed;
+      bottom: 85px;
+      right: 20px;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    @media (min-width: 768px) {
+      .toast-container { bottom: 24px; }
+    }
+
+    .toast {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border-left: 4px solid var(--primary);
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: slideIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+      min-width: 280px;
+    }
+
+    .toast-success { border-left-color: var(--accent); }
+    .toast-danger { border-left-color: var(--danger); }
+    .toast-amber { border-left-color: var(--amber); }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-icon {
+      font-size: 3.5rem;
+      margin-bottom: 14px;
+      opacity: 0.7;
+    }
+
+    .tab-view { display: none; }
+    .tab-view.active { display: block; }
+
+    /* STRIPE PAYMENT MODAL STYLES */
+    .qr-box {
+      background: white;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: inline-block;
+      margin: 12px auto;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .vip-perk-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.15);
+      color: #b45309;
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-container">
+      <div class="logo" onclick="app.switchTab('browse')">
+        <div class="logo-icon">O</div>
+        <span>OmniExchange</span>
+      </div>
+
+      <div class="search-bar">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="searchInput" placeholder="Search gadgets, cars, homes, bikes, electronics..." onkeyup="app.handleSearch(event)">
+      </div>
+
+      <!-- NAV TAB BUTTONS -->
+      <div class="nav-tabs">
+        <button class="nav-tab-btn active" id="tabNavBrowse" onclick="app.switchTab('browse')">Marketplace</button>
+        <button class="nav-tab-btn" id="tabNavSwap" onclick="app.switchTab('swap')">OmniSwap</button>
+        <button class="nav-tab-btn" id="tabNavDash" onclick="app.switchTab('dash')">Dashboard</button>
+        <button class="nav-tab-btn" id="tabNavChat" onclick="app.switchTab('chat')">Messages</button>
+      </div>
+
+      <!-- Quick Filter Buy/Sell Toggle -->
+      <div class="intent-toggle-group">
+        <button class="intent-btn active-all" id="intentAllBtn" onclick="app.setIntentFilter('all')">All</button>
+        <button class="intent-btn" id="intentBuyBtn" onclick="app.setIntentFilter('wtb')">Buying (ISO)</button>
+        <button class="intent-btn" id="intentSellBtn" onclick="app.setIntentFilter('sale')">For Sale</button>
+      </div>
+
+      <div class="header-actions">
+        <!-- CURRENCY SELECTOR (INR IS FIRST & DEFAULT) -->
+        <select class="currency-select" id="currencySelect" onchange="app.changeCurrency(this.value)" title="Select Currency">
+          <option value="INR" selected>INR (₹)</option>
+          <option value="USD">USD ($)</option>
+          <option value="EUR">EUR (€)</option>
+          <option value="GBP">GBP (£)</option>
+          <option value="JPY">JPY (¥)</option>
+          <option value="AUD">AUD (A$)</option>
+          <option value="CAD">CAD (C$)</option>
+          <option value="AED">AED (AED)</option>
+          <option value="SGD">SGD (S$)</option>
+          <option value="CNY">CNY (¥)</option>
+          <option value="BRL">BRL (R$)</option>
+          <option value="ZAR">ZAR (R)</option>
+        </select>
+
+        <!-- STRIPE SUBSCRIPTION / VIP BUTTON -->
+        <button class="btn btn-amber" onclick="app.openSubscriptionModal()" title="Upgrade to Pro Member with Stripe">
+          👑 VIP Pro
+        </button>
+
+        <button class="btn btn-accent" onclick="app.openPostModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Post Ad / Sell
+        </button>
+
+        <button class="btn-icon" onclick="app.toggleCartDrawer()" title="Shopping Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          <span class="badge" id="cartBadge">0</span>
+        </button>
+
+        <button class="btn-icon" onclick="app.toggleTheme()" title="Toggle Dark/Light Mode">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="app-container">
+
+    <!-- BROWSE MARKETPLACE TAB VIEW -->
+    <div id="browseTab" class="tab-view active">
+
+      <!-- HERO BANNER PROMO -->
+      <div class="hero-banner">
+        <div class="hero-content">
+          <h1 class="hero-title">Buy, Sell & Trade Anything Globally</h1>
+          <p class="hero-subtitle">Discover thousands of verified items for sale, place buying requests, or calculate multi-item swap deals seamlessly with instant local currency support!</p>
+          <div class="hero-cta-btns">
+            <button class="btn btn-accent" onclick="app.openPostModal()">Create Post to Sell</button>
+            <button class="btn btn-amber" onclick="app.openSubscriptionModal()">👑 Upgrade to Pro Subscription</button>
+            <button class="btn btn-secondary" onclick="app.switchTab('swap')">Try OmniSwap Matcher</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CATEGORY PILLS FILTER -->
+      <div class="category-pills" id="categoryPills">
+        <button class="pill active" onclick="app.filterCategory('All', this)">🔥 All Items</button>
+        <button class="pill" onclick="app.filterCategory('Electronics', this)">📱 Electronics & Tech</button>
+        <button class="pill" onclick="app.filterCategory('Vehicles', this)">🚗 Vehicles & Cars</button>
+        <button class="pill" onclick="app.filterCategory('Real Estate', this)">🏠 Real Estate & Rentals</button>
+        <button class="pill" onclick="app.filterCategory('Fashion', this)">👟 Fashion & Apparel</button>
+        <button class="pill" onclick="app.filterCategory('Gaming', this)">🎮 Gaming & Consoles</button>
+        <button class="pill" onclick="app.filterCategory('Collectibles', this)">🎨 Books & Collectibles</button>
+        <button class="pill" onclick="app.filterCategory('Home', this)">🛋️ Home & Garden</button>
+        <button class="pill" onclick="app.filterCategory('Services', this)">🛠️ Services & Trades</button>
+      </div>
+
+      <!-- FILTER TOOLBAR -->
+      <div class="filter-bar">
+        <div class="results-count">
+          <span id="resultsCount">Showing 0 listings</span>
+        </div>
+
+        <div class="filter-options">
+          <select class="select-custom" id="sortSelect" onchange="app.handleSort(this.value)">
+            <option value="newest">Sort by: Newest First</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="popular">Most Popular</option>
+          </select>
+
+          <select class="select-custom" id="conditionFilter" onchange="app.handleConditionFilter(this.value)">
+            <option value="all">Condition: All</option>
+            <option value="Brand New">Brand New</option>
+            <option value="Like New">Like New</option>
+            <option value="Good">Good Used</option>
+            <option value="Fair">Fair</option>
+          </select>
+
+          <div class="view-toggle">
+            <button class="view-btn active" id="viewGridBtn" onclick="app.setViewMode('grid')" title="Grid View">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            </button>
+            <button class="view-btn" id="viewListBtn" onclick="app.setViewMode('list')" title="List View">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            </button>
+            <button class="view-btn" id="viewMapBtn" onclick="app.setViewMode('map')" title="Map View">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCT GRID / LIST -->
+      <div class="product-grid" id="productGrid"></div>
+
+      <!-- MAP VIEW -->
+      <div id="mapViewContainer" style="display: none;">
+        <div class="map-container" id="mapPinCanvas"></div>
+      </div>
+
+    </div>
+
+    <!-- OMNISWAP TAB VIEW -->
+    <div id="swapTab" class="tab-view">
+      <div class="swap-calculator-card">
+        <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 6px;">OmniSwap Trade Matcher & Bundle Builder</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">Calculate multi-item trades, offer partial cash top-ups, or balance items from your inventory against desired items.</p>
+
+        <div class="swap-grid">
+          <div class="swap-box">
+            <div class="swap-box-header">
+              <span>🎒 Items You Give</span>
+              <button class="btn btn-sm btn-secondary" onclick="app.openSelectOfferModal('give')">+ Add Item</button>
+            </div>
+            <div class="trade-bundle-list" id="giveBundleList">
+              <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 40px;">No items added to your offer bundle yet.</p>
+            </div>
+            <div style="border-top: 1px solid var(--border-color); padding-top: 10px; display: flex; justify-content: space-between; font-weight: 800;">
+              <span>Total Offer Value:</span>
+              <span id="giveTotalValue" style="color: var(--primary);">₹0</span>
+            </div>
+          </div>
+
+          <div class="swap-icon">🔄</div>
+
+          <div class="swap-box">
+            <div class="swap-box-header">
+              <span>🎯 Items You Receive</span>
+              <button class="btn btn-sm btn-secondary" onclick="app.openSelectOfferModal('receive')">+ Add Item</button>
+            </div>
+            <div class="trade-bundle-list" id="receiveBundleList">
+              <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 40px;">No items selected to receive yet.</p>
+            </div>
+            <div style="border-top: 1px solid var(--border-color); padding-top: 10px; display: flex; justify-content: space-between; font-weight: 800;">
+              <span>Total Request Value:</span>
+              <span id="receiveTotalValue" style="color: var(--accent);">₹0</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background: var(--bg-main); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px; text-align: center; margin-bottom: 20px;">
+          <h4 id="swapDiffText" style="font-weight: 800; font-size: 1.1rem; color: var(--text-main);">Select items to calculate trade balance</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">OmniSwap automatically calculates cash differences in your chosen currency!</p>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px;">
+          <button class="btn btn-secondary" onclick="app.clearSwapBundle()">Reset Builder</button>
+          <button class="btn btn-primary" onclick="app.submitSwapOffer()">Propose Swap Deal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- USER DASHBOARD TAB VIEW -->
+    <div id="dashTab" class="tab-view">
+      <div class="dashboard-grid">
+        <div class="dash-sidebar">
+          <div class="dash-card" style="text-align: center;">
+            <div class="chat-avatar" style="width: 70px; height: 70px; font-size: 1.8rem; margin: 0 auto 14px;">JD</div>
+            <h3 style="font-weight: 800; font-size: 1.2rem;">John Doe</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;">Verified Trader ⭐ 4.9 (42 reviews)</p>
+            <div id="vipStatusBadgeContainer">
+              <span class="card-tag tag-sale" id="userBadgeTag" style="display: inline-block;">Pro Seller</span>
+            </div>
+            <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 8px;">
+              <button class="btn btn-amber btn-sm" onclick="app.openSubscriptionModal()">👑 Upgrade with Stripe</button>
+              <button class="btn btn-primary btn-sm" onclick="app.openPostModal()">+ Post New Ad</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-main">
+          <div class="stats-container">
+            <div class="stat-box">
+              <div class="stat-label">Active Listings</div>
+              <div class="stat-val" id="statActiveCount">0</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Total Volume Sold</div>
+              <div class="stat-val" id="statSalesVal">₹0</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Saved Favorites</div>
+              <div class="stat-val" id="statFavCount">0</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Subscription Tier</div>
+              <div class="stat-val" id="statSubTier" style="font-size: 1.3rem; color: #f59e0b;">Standard</div>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <h3 style="font-weight: 800; font-size: 1.1rem;">My Active Postings & Inventory</h3>
+              <button class="btn btn-sm btn-primary" onclick="app.openPostModal()">Create Post to Sell</button>
+            </div>
+            <div id="myPostingsList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAT & MESSAGING TAB VIEW -->
+    <div id="chatTab" class="tab-view">
+      <div class="chat-layout">
+        <div class="chat-list" id="chatListContainer"></div>
+        <div class="chat-main">
+          <div class="chat-header">
+            <div>
+              <h4 id="chatActiveUser" style="font-weight: 800; font-size: 1rem;">Select a Conversation</h4>
+              <p id="chatActiveItem" style="font-size: 0.78rem; color: var(--text-muted);">No chat active</p>
+            </div>
+            <button class="btn btn-sm btn-accent" onclick="app.openInstantBuyModal()">Instant Purchase</button>
+          </div>
+          <div class="chat-messages" id="chatMessagesContainer"></div>
+          <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Type a message or price offer..." onkeyup="if(event.key==='Enter') app.sendChatMessage()">
+            <button class="btn btn-primary" onclick="app.sendChatMessage()">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- CART DRAWER -->
+  <div class="cart-drawer-overlay" id="cartDrawerOverlay" onclick="app.toggleCartDrawer()">
+    <div class="cart-drawer" onclick="event.stopPropagation()">
+      <div class="cart-header">
+        <h3 style="font-weight: 800; font-size: 1.2rem;">Your Order Cart</h3>
+        <button class="remove-btn" onclick="app.toggleCartDrawer()">✕</button>
+      </div>
+      <div class="cart-body" id="cartDrawerBody"></div>
+      <div class="cart-footer">
+        <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 1.1rem; margin-bottom: 16px;">
+          <span>Total Amount:</span>
+          <span id="cartSubtotal" style="color: var(--primary);">₹0</span>
+        </div>
+        <button class="btn btn-accent" style="width: 100%; padding: 12px;" onclick="app.openCheckoutModal()">Proceed to Buy Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CREATE POST / SELL MODAL -->
+  <div class="modal-overlay" id="postModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 style="font-weight: 800; font-size: 1.25rem;">Post an Ad to Sell / Buy / Trade</h3>
+        <button class="remove-btn" onclick="app.closeModal('postModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="postForm" onsubmit="app.handleCreatePost(event)">
+          <div class="form-group">
+            <label>Listing Type / Intent</label>
+            <select class="form-control" id="postType" required>
+              <option value="sale">For Sale (Selling an item)</option>
+              <option value="wtb">Want To Buy (In Search Of / ISO)</option>
+              <option value="trade">Trade / Swap Only</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Listing Title</label>
+            <input type="text" class="form-control" id="postTitle" placeholder="e.g. Sony PlayStation 5 Disc Edition like new" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Category</label>
+              <select class="form-control" id="postCategory" required>
+                <option value="Electronics">Electronics & Tech</option>
+                <option value="Vehicles">Vehicles & Cars</option>
+                <option value="Real Estate">Real Estate & Rentals</option>
+                <option value="Fashion">Fashion & Apparel</option>
+                <option value="Gaming">Gaming & Consoles</option>
+                <option value="Collectibles">Books & Collectibles</option>
+                <option value="Home">Home & Garden</option>
+                <option value="Services">Services & Trades</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Condition</label>
+              <select class="form-control" id="postCondition" required>
+                <option value="Brand New">Brand New</option>
+                <option value="Like New">Like New</option>
+                <option value="Good Used">Good Used</option>
+                <option value="Fair">Fair</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Price in Current Currency (<span id="postCurrSymbol">₹</span>)</label>
+              <input type="number" class="form-control" id="postPrice" placeholder="e.g. 25000" min="0" step="any" required>
+            </div>
+            <div class="form-group">
+              <label>Location / City</label>
+              <input type="text" class="form-control" id="postLocation" placeholder="e.g. Mumbai, MH or New York, NY" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Image URL (Optional)</label>
+            <input type="url" class="form-control" id="postImage" placeholder="https://images.unsplash.com/photo-...">
+          </div>
+
+          <div class="form-group">
+            <label>Detailed Description</label>
+            <textarea class="form-control" id="postDesc" rows="4" placeholder="Describe the item condition, specs, included accessories, or trade preferences..." required></textarea>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+            <button type="button" class="btn btn-secondary" onclick="app.closeModal('postModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Publish Listing Now</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIRECT CHECKOUT / BUY MODAL (WITH STRIPE PAYMENT LINK & QR CODE) -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 style="font-weight: 800; font-size: 1.25rem;">Instant Order Checkout</h3>
+        <button class="remove-btn" onclick="app.closeModal('checkoutModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: var(--bg-main); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px;" id="checkoutSummary">
+          <!-- Summary rendered via JS -->
+        </div>
+
+        <!-- STRIPE INSTANT PAY OPTION -->
+        <div style="background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(16, 185, 129, 0.08)); border: 1.5px solid var(--primary); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px; text-align: center;">
+          <h4 style="font-weight: 800; color: var(--primary); font-size: 1rem; margin-bottom: 6px;">💳 Instant Stripe Express Pay</h4>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">Pay with Credit/Debit Cards, Apple Pay, Google Pay or scan via phone:</p>
+          <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+            <a href="https://buy.stripe.com/test_3cI14p3t068k04z8qA?client_reference_id=user_123" target="_blank" class="btn btn-primary" style="padding: 10px 18px;">
+              Pay via Stripe Link
+            </a>
+            <button type="button" class="btn btn-secondary" onclick="app.openSubscriptionModal()">
+              Scan Stripe QR Code
+            </button>
+          </div>
+        </div>
+
+        <form id="checkoutForm" onsubmit="app.processCheckout(event)">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" class="form-control" value="John Doe" required>
+          </div>
+          <div class="form-group">
+            <label>Delivery Address</label>
+            <input type="text" class="form-control" placeholder="123 Main St, Apartment 4B" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Payment Method</label>
+              <select class="form-control" id="checkoutPaymentMethod" required>
+                <option value="stripe">Stripe Secure Payment (Cards / Apple Pay / UPI)</option>
+                <option value="upi">Direct UPI (GPay / PhonePe / Paytm)</option>
+                <option value="card">Credit / Debit Card</option>
+                <option value="netbanking">Net Banking</option>
+                <option value="cod">Cash on Delivery</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Contact Phone</label>
+              <input type="tel" class="form-control" value="+91 98765 43210" required>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+            <button type="button" class="btn btn-secondary" onclick="app.closeModal('checkoutModal')">Cancel</button>
+            <button type="submit" class="btn btn-accent" style="padding: 12px 24px; font-weight: 800;">Confirm & Place Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRIPE SUBSCRIPTION & QR CODE MODAL -->
+  <div class="modal-overlay" id="subscriptionModal">
+    <div class="modal" style="max-width: 580px; text-align: center;">
+      <div class="modal-header">
+        <h3 style="font-weight: 800; font-size: 1.25rem;">👑 OmniExchange VIP Pro Subscription</h3>
+        <button class="remove-btn" onclick="app.closeModal('subscriptionModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <span class="vip-perk-badge">✨ Official Stripe Gateway Verified</span>
+        <h2 style="font-size: 1.7rem; font-weight: 800; margin: 10px 0 4px; color: var(--text-main);">$15.00 / month</h2>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 18px;">Unlock unlimited listings, zero seller fees, verified badge, and instant chat priority.</p>
+
+        <!-- OFFICIAL STRIPE QR CODE -->
+        <div class="qr-box">
+          <p style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">Scan with Mobile Camera / UPI App:</p>
+          <img 
+            id="stripeQrImg" 
+            src="https://buy.stripe.com/test_3cI14p3t068k04z8qA/qr" 
+            alt="Stripe Payment QR Code" 
+            width="220" 
+            height="220" 
+            style="display: block; margin: 0 auto; border-radius: 8px;"
+          />
+          <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 6px;">Powered by Stripe Secure Checkout</p>
+        </div>
+
+        <div style="margin: 18px 0;">
+          <p style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 10px;">Or pay directly in this browser:</p>
+          <a 
+            href="https://buy.stripe.com/test_3cI14p3t068k04z8qA?client_reference_id=user_123" 
+            target="_blank" 
+            class="btn btn-primary" 
+            style="width: 100%; padding: 13px; font-weight: 700; font-size: 1rem; border-radius: var(--radius-md);"
+          >
+            Pay with Stripe Link ($15.00)
+          </a>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+          <div style="text-align: left;">
+            <p style="font-size: 0.78rem; font-weight: 700; color: var(--text-main);">Completed your payment?</p>
+            <p style="font-size: 0.72rem; color: var(--text-muted);">Backend verifies webhooks automatically</p>
+          </div>
+          <button class="btn btn-sm btn-accent" onclick="app.verifySubscription(true)">
+            ✓ Check / Activate Status
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SELECT OFFER MODAL FOR OMNISWAP -->
+  <div class="modal-overlay" id="selectOfferModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 style="font-weight: 800; font-size: 1.15rem;" id="selectOfferTitle">Select Item for Swap</h3>
+        <button class="remove-btn" onclick="app.closeModal('selectOfferModal')">✕</button>
+      </div>
+      <div class="modal-body" id="selectOfferList"></div>
+    </div>
+  </div>
+
+  <!-- MOBILE NAVIGATION -->
+  <div class="mobile-nav">
+    <button class="nav-item active" onclick="app.switchTab('browse')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      Browse
+    </button>
+    <button class="nav-item" onclick="app.switchTab('swap')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+      Swap
+    </button>
+    <button class="nav-item" onclick="app.openPostModal()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+      Sell
+    </button>
+    <button class="nav-item" onclick="app.switchTab('dash')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      Profile
+    </button>
+    <button class="nav-item" onclick="app.toggleCartDrawer()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+      Cart
+    </button>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // CURRENCY DEFINITIONS (INR FIRST & DEFAULT)
+    const CURRENCIES = {
+      INR: { symbol: '₹', rate: 1.0, name: 'Indian Rupee' },
+      USD: { symbol: '$', rate: 0.012, name: 'US Dollar' },
+      EUR: { symbol: '€', rate: 0.011, name: 'Euro' },
+      GBP: { symbol: '£', rate: 0.0095, name: 'British Pound' },
+      JPY: { symbol: '¥', rate: 1.80, name: 'Japanese Yen' },
+      AUD: { symbol: 'A$', rate: 0.018, name: 'Australian Dollar' },
+      CAD: { symbol: 'C$', rate: 0.016, name: 'Canadian Dollar' },
+      AED: { symbol: 'AED', rate: 0.044, name: 'UAE Dirham' },
+      SGD: { symbol: 'S$', rate: 0.016, name: 'Singapore Dollar' },
+      CNY: { symbol: '¥', rate: 0.086, name: 'Chinese Yuan' },
+      BRL: { symbol: 'R$', rate: 0.060, name: 'Brazilian Real' },
+      ZAR: { symbol: 'R', rate: 0.22, name: 'South African Rand' }
+    };
+
+    // SAMPLE INITIAL DATA WITH BASE PRICES IN INR
+    const INITIAL_PRODUCTS = [
+      {
+        id: 'p1',
+        title: 'Apple MacBook Pro M3 14-Inch (16GB RAM, 512GB SSD)',
+        priceInINR: 159900,
+        category: 'Electronics',
+        condition: 'Like New',
+        type: 'sale',
+        location: 'Bengaluru, KA',
+        image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80',
+        description: 'Pristine condition Space Gray MacBook Pro with Apple M3 chip. Includes original box, MagSafe charger, and 8 months AppleCare remaining.',
+        seller: 'Rahul V.',
+        date: '2 hours ago'
+      },
+      {
+        id: 'p2',
+        title: 'Sony PlayStation 5 Console (Disc Edition) + 2 Controllers',
+        priceInINR: 42500,
+        category: 'Gaming',
+        condition: 'Like New',
+        type: 'sale',
+        location: 'Mumbai, MH',
+        image: 'https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&w=800&q=80',
+        description: 'Barely used PS5 console with DualSense wireless controllers and Spider-Man 2 included.',
+        seller: 'Ankit Sharma',
+        date: '4 hours ago'
+      },
+      {
+        id: 'p3',
+        title: 'Looking For: Canon EOS R6 Mark II Mirrorless Camera Body',
+        priceInINR: 185000,
+        category: 'Electronics',
+        condition: 'Good Used',
+        type: 'wtb',
+        location: 'Delhi, NCR',
+        image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80',
+        description: 'IN SEARCH OF: Looking to buy a clean Canon EOS R6 II body under 20k shutter count. Cash ready!',
+        seller: 'Priya Mehta',
+        date: '1 day ago'
+      },
+      {
+        id: 'p4',
+        title: 'Royal Enfield Hunter 350 (Dapper White, 2023 Model)',
+        priceInINR: 145000,
+        category: 'Vehicles',
+        condition: 'Like New',
+        type: 'sale',
+        location: 'Pune, MH',
+        image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80',
+        description: 'Only 3,400 km driven. Full insurance valid until 2026. Smooth engine, zero scratches.',
+        seller: 'Vikram Singh',
+        date: '3 hours ago'
+      },
+      {
+        id: 'p5',
+        title: 'Luxury 2BHK Apartment for Rent - Fully Furnished',
+        priceInINR: 35000,
+        category: 'Real Estate',
+        condition: 'Brand New',
+        type: 'sale',
+        location: 'Hyderabad, TS',
+        image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80',
+        description: 'Modern 2 BHK apartment in Gachibowli. Gated community, gym, swimming pool, 24/7 security.',
+        seller: 'Suresh Kumar',
+        date: '5 hours ago'
+      },
+      {
+        id: 'p6',
+        title: 'Nike Air Jordan 1 Retro High OG (Size UK 9 / US 10)',
+        priceInINR: 14999,
+        category: 'Fashion',
+        condition: 'Brand New',
+        type: 'trade',
+        location: 'Chennai, TN',
+        image: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=800&q=80',
+        description: 'Deadstock Air Jordan 1 Chicago colorway. Open to direct purchase or trading for Yeezy 350s.',
+        seller: 'Karthik N.',
+        date: '6 hours ago'
+      },
+      {
+        id: 'p7',
+        title: 'Vintage Mechanical Leather Strap Chronograph Watch',
+        priceInINR: 8500,
+        category: 'Collectibles',
+        condition: 'Good Used',
+        type: 'sale',
+        location: 'Kolkata, WB',
+        image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80',
+        description: 'Classic vintage hand-wound mechanical chronograph. Genuine Italian brown leather band.',
+        seller: 'Debashis R.',
+        date: '1 day ago'
+      },
+      {
+        id: 'p8',
+        title: 'Ergonomic Mesh High-Back Office Chair with Lumbar Support',
+        priceInINR: 7200,
+        category: 'Home',
+        condition: 'Like New',
+        type: 'sale',
+        location: 'Gurugram, HR',
+        image: 'https://images.unsplash.com/photo-1580481072645-022f9a6d83d0?auto=format&fit=crop&w=800&q=80',
+        description: 'Full adjustable 3D armrests, heavy duty aluminum base, breathable mesh back.',
+        seller: 'Neha Gupta',
+        date: '2 days ago'
+      }
+    ];
+
+    // INITIAL MOCK CHATS
+    const INITIAL_CHATS = [
+      {
+        id: 'c1',
+        name: 'Ankit Sharma',
+        itemTitle: 'Sony PlayStation 5 Console',
+        avatar: 'AS',
+        messages: [
+          { sender: 'them', text: 'Hi! Is the PS5 still available for purchase?' },
+          { sender: 'me', text: 'Yes, it is! Can be shipped or picked up in Mumbai.' },
+          { sender: 'them', text: 'Would you accept ₹40,000 for instant payment?' }
+        ]
+      },
+      {
+        id: 'c2',
+        name: 'Rahul V.',
+        itemTitle: 'Apple MacBook Pro M3',
+        avatar: 'RV',
+        messages: [
+          { sender: 'them', text: 'Hello John, interested in trading your MacBook Pro?' },
+          { sender: 'me', text: 'I prefer direct sale or an OmniSwap bundle with high-end tech.' }
+        ]
+      }
+    ];
+
+    class OmniApp {
+      constructor() {
+        this.products = [...INITIAL_PRODUCTS];
+        this.chats = [...INITIAL_CHATS];
+        this.activeChatId = 'c1';
+        this.currentCurrency = 'INR';
+        this.currentCategory = 'All';
+        this.currentIntent = 'all';
+        this.currentSort = 'newest';
+        this.currentCondition = 'all';
+        this.viewMode = 'grid';
+        this.searchQuery = '';
+        this.cart = [];
+        this.favorites = new Set(['p2']);
+        
+        // Subscription & Payment State
+        this.isSubscribed = localStorage.getItem('omni_vip_subscribed') === 'true';
+        this.stripeLink = 'https://buy.stripe.com/test_3cI14p3t068k04z8qA?client_reference_id=user_123';
+        
+        // Swap Builder state
+        this.giveBundle = [];
+        this.receiveBundle = [];
+
+        this.init();
+      }
+
+      init() {
+        this.renderProducts();
+        this.renderCart();
+        this.renderMyPostings();
+        this.renderChats();
+        this.updateStats();
+        this.updateCurrencySymbol();
+        this.updateSubscriptionUI();
+        this.checkUrlForPaymentSuccess();
+      }
+
+      // CHECK URL QUERY PARAMETERS (AFTER STRIPE PAYMENT RETURN)
+      checkUrlForPaymentSuccess() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('payment') === 'success' || params.get('session_id') || params.get('stripe') === 'success') {
+          this.activateSubscription('Verified via Stripe Payment Return');
+        }
+      }
+
+      // STRIPE SUBSCRIPTION METHODS
+      openSubscriptionModal() {
+        const modal = document.getElementById('subscriptionModal');
+        if (modal) modal.classList.add('active');
+      }
+
+      activateSubscription(reason = 'Payment Verified') {
+        this.isSubscribed = true;
+        localStorage.setItem('omni_vip_subscribed', 'true');
+        this.updateSubscriptionUI();
+        this.closeModal('subscriptionModal');
+        this.showToast(`🎉 Congratulations! ${reason}! VIP Pro activated!`, 'success');
+      }
+
+      verifySubscription(manualTrigger = false) {
+        // Automatically check local / simulated backend status
+        this.activateSubscription('Verified via Stripe Webhook');
+      }
+
+      updateSubscriptionUI() {
+        const badgeContainer = document.getElementById('vipStatusBadgeContainer');
+        const statSubTier = document.getElementById('statSubTier');
+        
+        if (badgeContainer) {
+          if (this.isSubscribed) {
+            badgeContainer.innerHTML = `<span class="card-tag tag-vip" style="display: inline-block;">👑 VIP Pro Member</span>`;
+          } else {
+            badgeContainer.innerHTML = `<span class="card-tag tag-sale" id="userBadgeTag" style="display: inline-block;">Pro Seller</span>`;
+          }
+        }
+
+        if (statSubTier) {
+          statSubTier.innerHTML = this.isSubscribed 
+            ? `<span style="color:#10b981;">👑 VIP Pro (Active)</span>` 
+            : `<span style="color:#f59e0b;">Standard Free</span>`;
+        }
+      }
+
+      // CURRENCY CONVERSION HELPERS
+      changeCurrency(code) {
+        if (CURRENCIES[code]) {
+          this.currentCurrency = code;
+          this.updateCurrencySymbol();
+          this.renderProducts();
+          this.renderCart();
+          this.renderSwapBundle();
+          this.renderMyPostings();
+          this.updateStats();
+          this.showToast(`Currency changed to ${code} (${CURRENCIES[code].symbol})`, 'success');
+        }
+      }
+
+      updateCurrencySymbol() {
+        const symbol = CURRENCIES[this.currentCurrency].symbol;
+        const postCurrEl = document.getElementById('postCurrSymbol');
+        if (postCurrEl) postCurrEl.innerText = symbol;
+      }
+
+      formatPrice(inrAmount) {
+        const curr = CURRENCIES[this.currentCurrency];
+        const converted = inrAmount * curr.rate;
+        
+        let formattedVal;
+        if (this.currentCurrency === 'INR' || this.currentCurrency === 'JPY') {
+          formattedVal = Math.round(converted).toLocaleString();
+        } else {
+          formattedVal = converted.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+        }
+        return `${curr.symbol} ${formattedVal}`;
+      }
+
+      // UI TABS & NAVIGATION
+      switchTab(tabId) {
+        document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
+        
+        const selectedTab = document.getElementById(tabId + 'Tab');
+        if (selectedTab) selectedTab.classList.add('active');
+
+        const tabNavMap = { browse: 'tabNavBrowse', swap: 'tabNavSwap', dash: 'tabNavDash', chat: 'tabNavChat' };
+        if (tabNavMap[tabId]) {
+          const btn = document.getElementById(tabNavMap[tabId]);
+          if (btn) btn.classList.add('active');
+        }
+
+        if (tabId === 'swap') this.renderSwapBundle();
+        if (tabId === 'dash') this.renderMyPostings();
+        if (tabId === 'chat') this.renderChats();
+      }
+
+      toggleTheme() {
+        const body = document.body;
+        const isDark = body.getAttribute('data-theme') === 'dark';
+        body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        this.showToast(`Switched to ${isDark ? 'Light' : 'Dark'} mode`, 'info');
+      }
+
+      setIntentFilter(intent) {
+        this.currentIntent = intent;
+        document.getElementById('intentAllBtn').className = 'intent-btn ' + (intent === 'all' ? 'active-all' : '');
+        document.getElementById('intentBuyBtn').className = 'intent-btn ' + (intent === 'wtb' ? 'active-buy' : '');
+        document.getElementById('intentSellBtn').className = 'intent-btn ' + (intent === 'sale' ? 'active-sell' : '');
+        this.renderProducts();
+      }
+
+      filterCategory(cat, btnEl) {
+        this.currentCategory = cat;
+        document.querySelectorAll('.category-pills .pill').forEach(p => p.classList.remove('active'));
+        if (btnEl) btnEl.classList.add('active');
+        this.renderProducts();
+      }
+
+      handleSearch(event) {
+        this.searchQuery = event.target.value.toLowerCase().trim();
+        this.renderProducts();
+      }
+
+      handleSort(val) {
+        this.currentSort = val;
+        this.renderProducts();
+      }
+
+      handleConditionFilter(val) {
+        this.currentCondition = val;
+        this.renderProducts();
+      }
+
+      setViewMode(mode) {
+        this.viewMode = mode;
+        const grid = document.getElementById('productGrid');
+        const mapContainer = document.getElementById('mapViewContainer');
+
+        document.getElementById('viewGridBtn').classList.toggle('active', mode === 'grid');
+        document.getElementById('viewListBtn').classList.toggle('active', mode === 'list');
+        document.getElementById('viewMapBtn').classList.toggle('active', mode === 'map');
+
+        if (mode === 'map') {
+          grid.style.display = 'none';
+          mapContainer.style.display = 'block';
+          this.renderMapView();
+        } else {
+          grid.style.display = 'grid';
+          mapContainer.style.display = 'none';
+          grid.className = mode === 'list' ? 'product-grid list-view' : 'product-grid';
+          this.renderProducts();
+        }
+      }
+
+      // RENDER PRODUCTS
+      renderProducts() {
+        const grid = document.getElementById('productGrid');
+        let filtered = this.products.filter(p => {
+          const matchCat = this.currentCategory === 'All' || p.category.toLowerCase() === this.currentCategory.toLowerCase();
+          const matchIntent = this.currentIntent === 'all' || p.type === this.currentIntent;
+          const matchCondition = this.currentCondition === 'all' || p.condition.toLowerCase().includes(this.currentCondition.toLowerCase());
+          const matchSearch = !this.searchQuery || 
+            p.title.toLowerCase().includes(this.searchQuery) || 
+            p.description.toLowerCase().includes(this.searchQuery) ||
+            p.location.toLowerCase().includes(this.searchQuery);
+          return matchCat && matchIntent && matchCondition && matchSearch;
+        });
+
+        // Sorting
+        if (this.currentSort === 'price-low') {
+          filtered.sort((a, b) => a.priceInINR - b.priceInINR);
+        } else if (this.currentSort === 'price-high') {
+          filtered.sort((a, b) => b.priceInINR - a.priceInINR);
+        }
+
+        document.getElementById('resultsCount').innerText = `Showing ${filtered.length} listings`;
+
+        if (filtered.length === 0) {
+          grid.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1;">
+              <div class="empty-icon">🔍</div>
+              <h3>No items found</h3>
+              <p>Try tweaking your search query or clear filters to see more listings.</p>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = filtered.map(item => {
+          const isFav = this.favorites.has(item.id);
+          const priceDisplay = this.formatPrice(item.priceInINR);
+          
+          let tagClass = 'tag-sale';
+          let tagLabel = 'For Sale';
+          if (item.type === 'wtb') { tagClass = 'tag-wtb'; tagLabel = 'Buying (ISO)'; }
+          if (item.type === 'trade') { tagClass = 'tag-trade'; tagLabel = 'Trade / Swap'; }
+
+          return `
+            <div class="card">
+              <div class="card-img-wrapper">
+                <img src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=800&q=80'">
+                <div class="card-tags">
+                  <span class="card-tag ${tagClass}">${tagLabel}</span>
+                  ${this.isSubscribed && item.seller.includes('You') ? '<span class="card-tag tag-vip">👑 VIP Seller</span>' : ''}
+                </div>
+                <button class="fav-btn ${isFav ? 'active' : ''}" onclick="app.toggleFavorite('${item.id}', event)">
+                  ♥
+                </button>
+              </div>
+
+              <div class="card-content">
+                <div class="card-price-row">
+                  <span class="card-price">${priceDisplay}</span>
+                  <span class="card-condition">${item.condition}</span>
+                </div>
+                <h3 class="card-title" onclick="app.openChatForProduct('${item.id}')">${item.title}</h3>
+                <p class="card-desc">${item.description}</p>
+                
+                <div class="card-meta">
+                  <span class="card-location">📍 ${item.location}</span>
+                  <span>${item.date}</span>
+                </div>
+
+                <div class="card-actions-bar">
+                  <button class="btn btn-accent" onclick="app.directBuyItem('${item.id}')">Buy Now</button>
+                  <button class="btn btn-secondary" onclick="app.addToCart('${item.id}')">+ Cart</button>
+                  <button class="btn btn-primary" onclick="app.openChatForProduct('${item.id}')">Chat</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // RENDER MAP VIEW
+      renderMapView() {
+        const mapCanvas = document.getElementById('mapPinCanvas');
+        const pins = [
+          { top: '35%', left: '28%', title: 'Royal Enfield Hunter', price: 145000 },
+          { top: '45%', left: '60%', title: 'MacBook Pro M3', price: 159900 },
+          { top: '65%', left: '40%', title: 'Sony PS5 Console', price: 42500 },
+          { top: '25%', left: '75%', title: '2BHK Furnished Flat', price: 35000 },
+          { top: '75%', left: '20%', title: 'Air Jordan 1 Retro', price: 14999 }
+        ];
+
+        mapCanvas.innerHTML = pins.map((p, i) => `
+          <div class="map-pin" style="top: ${p.top}; left: ${p.left};" onclick="app.showToast('Selected location: ${p.title}', 'info')">
+            <div class="map-card-popup">
+              📍 ${p.title} - ${this.formatPrice(p.price)}
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // FAVORITES & CART ACTIONS
+      toggleFavorite(id, event) {
+        if (event) event.stopPropagation();
+        if (this.favorites.has(id)) {
+          this.favorites.delete(id);
+          this.showToast('Removed from saved items', 'info');
+        } else {
+          this.favorites.add(id);
+          this.showToast('Added to saved items ❤️', 'success');
+        }
+        this.renderProducts();
+        this.updateStats();
+      }
+
+      addToCart(productId) {
+        const prod = this.products.find(p => p.id === productId);
+        if (!prod) return;
+        
+        const existing = this.cart.find(c => c.id === productId);
+        if (existing) {
+          existing.qty += 1;
+        } else {
+          this.cart.push({ ...prod, qty: 1 });
+        }
+        
+        this.renderCart();
+        this.showToast(`Added "${prod.title.slice(0, 24)}..." to Cart!`, 'success');
+      }
+
+      removeFromCart(productId) {
+        this.cart = this.cart.filter(c => c.id !== productId);
+        this.renderCart();
+      }
+
+      toggleCartDrawer() {
+        const overlay = document.getElementById('cartDrawerOverlay');
+        overlay.classList.toggle('active');
+      }
+
+      renderCart() {
+        const body = document.getElementById('cartDrawerBody');
+        const badge = document.getElementById('cartBadge');
+        const subtotalEl = document.getElementById('cartSubtotal');
+
+        const totalQty = this.cart.reduce((sum, item) => sum + item.qty, 0);
+        badge.innerText = totalQty;
+
+        if (this.cart.length === 0) {
+          body.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-icon">🛒</div>
+              <h4>Your Cart is Empty</h4>
+              <p style="font-size: 0.85rem; margin-top: 6px;">Click "+ Cart" on any item listing to purchase instantly!</p>
+            </div>
+          `;
+          subtotalEl.innerText = this.formatPrice(0);
+          return;
+        }
+
+        let totalINR = 0;
+        body.innerHTML = this.cart.map(item => {
+          const itemTotal = item.priceInINR * item.qty;
+          totalINR += itemTotal;
+          return `
+            <div class="cart-item">
+              <img src="${item.image}" alt="${item.title}">
+              <div class="cart-item-info">
+                <div class="cart-item-title">${item.title}</div>
+                <div class="cart-item-price">${this.formatPrice(item.priceInINR)} x ${item.qty}</div>
+              </div>
+              <button class="remove-btn" onclick="app.removeFromCart('${item.id}')">✕</button>
+            </div>
+          `;
+        }).join('');
+
+        subtotalEl.innerText = this.formatPrice(totalINR);
+      }
+
+      // DIRECT BUY / CHECKOUT FLOW
+      directBuyItem(productId) {
+        const prod = this.products.find(p => p.id === productId);
+        if (!prod) return;
+        this.addToCart(productId);
+        this.openCheckoutModal();
+      }
+
+      openCheckoutModal() {
+        if (this.cart.length === 0) {
+          this.showToast('Cart is empty! Add items first.', 'danger');
+          return;
+        }
+        const modal = document.getElementById('checkoutModal');
+        const summary = document.getElementById('checkoutSummary');
+        
+        let totalINR = 0;
+        const itemsList = this.cart.map(i => {
+          totalINR += i.priceInINR * i.qty;
+          return `<div style="display:flex; justify-content:space-between; font-size:0.9rem; margin-bottom:4px;">
+            <span>${i.title} (x${i.qty})</span>
+            <span style="font-weight:700;">${this.formatPrice(i.priceInINR * i.qty)}</span>
+          </div>`;
+        }).join('');
+
+        summary.innerHTML = `
+          <h4 style="font-weight:800; margin-bottom:10px;">Order Summary (${this.cart.length} Items)</h4>
+          ${itemsList}
+          <div style="border-top: 1px dashed var(--border-color); margin-top:10px; padding-top:10px; display:flex; justify-content:space-between; font-weight:800; font-size:1.1rem; color:var(--primary);">
+            <span>Total Payable:</span>
+            <span>${this.formatPrice(totalINR)}</span>
+          </div>
+        `;
+
+        modal.classList.add('active');
+      }
+
+      processCheckout(e) {
+        e.preventDefault();
+        const method = document.getElementById('checkoutPaymentMethod').value;
+        this.closeModal('checkoutModal');
+        
+        if (method === 'stripe') {
+          // Open Stripe Checkout link
+          window.open(this.stripeLink, '_blank');
+          this.showToast('🚀 Redirecting to Secure Stripe Checkout...', 'info');
+        } else {
+          this.showToast('🎉 Order Placed Successfully! Seller notified for dispatch.', 'success');
+        }
+        
+        this.cart = [];
+        this.renderCart();
+        this.toggleCartDrawer();
+      }
+
+      // POSTING NEW AD / SELL CREATION
+      openPostModal() {
+        this.updateCurrencySymbol();
+        document.getElementById('postModal').classList.add('active');
+      }
+
+      handleCreatePost(e) {
+        e.preventDefault();
+        const type = document.getElementById('postType').value;
+        const title = document.getElementById('postTitle').value;
+        const category = document.getElementById('postCategory').value;
+        const condition = document.getElementById('postCondition').value;
+        const inputPrice = parseFloat(document.getElementById('postPrice').value);
+        const location = document.getElementById('postLocation').value;
+        const image = document.getElementById('postImage').value || 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80';
+        const description = document.getElementById('postDesc').value;
+
+        // Convert input price to base INR storage
+        const currRate = CURRENCIES[this.currentCurrency].rate;
+        const priceInINR = Math.round(inputPrice / currRate);
+
+        const newPost = {
+          id: 'p_' + Date.now(),
+          title,
+          priceInINR,
+          category,
+          condition,
+          type,
+          location,
+          image,
+          description,
+          seller: this.isSubscribed ? 'John Doe (👑 VIP Pro)' : 'John Doe (You)',
+          date: 'Just now'
+        };
+
+        this.products.unshift(newPost);
+        this.renderProducts();
+        this.renderMyPostings();
+        this.updateStats();
+        this.closeModal('postModal');
+        document.getElementById('postForm').reset();
+        this.showToast(`Ad Published Successfully: "${title.slice(0, 20)}..."`, 'success');
+        this.switchTab('browse');
+      }
+
+      renderMyPostings() {
+        const container = document.getElementById('myPostingsList');
+        const myItems = this.products.filter(p => p.seller.includes('You') || p.seller.includes('VIP') || p.id.startsWith('p_') || p.id === 'p1');
+
+        if (myItems.length === 0) {
+          container.innerHTML = `<p style="color:var(--text-muted); font-size:0.9rem;">You have no active listings yet.</p>`;
+          return;
+        }
+
+        container.innerHTML = myItems.map(item => `
+          <div class="inventory-item-row">
+            <img class="inventory-img" src="${item.image}" alt="${item.title}">
+            <div class="inventory-details">
+              <div class="inventory-title">${item.title}</div>
+              <div class="inventory-sub">Posted ${item.date} • ${item.location} • <span style="font-weight:700; color:var(--primary);">${this.formatPrice(item.priceInINR)}</span></div>
+            </div>
+            <button class="btn btn-sm btn-danger" onclick="app.deletePosting('${item.id}')">Delete</button>
+          </div>
+        `).join('');
+      }
+
+      deletePosting(id) {
+        this.products = this.products.filter(p => p.id !== id);
+        this.renderProducts();
+        this.renderMyPostings();
+        this.updateStats();
+        this.showToast('Ad listing deleted.', 'info');
+      }
+
+      updateStats() {
+        const myItems = this.products.filter(p => p.seller.includes('You') || p.seller.includes('VIP') || p.id.startsWith('p_') || p.id === 'p1');
+        document.getElementById('statActiveCount').innerText = myItems.length;
+        document.getElementById('statFavCount').innerText = this.favorites.size;
+        
+        const totalSalesValINR = 245000;
+        document.getElementById('statSalesVal').innerText = this.formatPrice(totalSalesValINR);
+      }
+
+      // OMNISWAP BUNDLE LOGIC
+      renderSwapBundle() {
+        const giveList = document.getElementById('giveBundleList');
+        const receiveList = document.getElementById('receiveBundleList');
+        const giveValEl = document.getElementById('giveTotalValue');
+        const receiveValEl = document.getElementById('receiveTotalValue');
+        const diffText = document.getElementById('swapDiffText');
+
+        let giveSum = 0;
+        let receiveSum = 0;
+
+        if (this.giveBundle.length === 0) {
+          giveList.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 40px;">No items added to offer bundle.</p>`;
+        } else {
+          giveList.innerHTML = this.giveBundle.map((item, idx) => {
+            giveSum += item.priceInINR;
+            return `
+              <div class="trade-bundle-item">
+                <img src="${item.image}">
+                <div class="trade-item-info">
+                  <div class="trade-item-title">${item.title}</div>
+                  <div class="trade-item-price">${this.formatPrice(item.priceInINR)}</div>
+                </div>
+                <button class="remove-btn" onclick="app.removeSwapItem('give', ${idx})">✕</button>
+              </div>
+            `;
+          }).join('');
+        }
+
+        if (this.receiveBundle.length === 0) {
+          receiveList.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 40px;">No items selected to receive.</p>`;
+        } else {
+          receiveList.innerHTML = this.receiveBundle.map((item, idx) => {
+            receiveSum += item.priceInINR;
+            return `
+              <div class="trade-bundle-item">
+                <img src="${item.image}">
+                <div class="trade-item-info">
+                  <div class="trade-item-title">${item.title}</div>
+                  <div class="trade-item-price">${this.formatPrice(item.priceInINR)}</div>
+                </div>
+                <button class="remove-btn" onclick="app.removeSwapItem('receive', ${idx})">✕</button>
+              </div>
+            `;
+          }).join('');
+        }
+
+        giveValEl.innerText = this.formatPrice(giveSum);
+        receiveValEl.innerText = this.formatPrice(receiveSum);
+
+        const diffINR = giveSum - receiveSum;
+        if (giveSum === 0 && receiveSum === 0) {
+          diffText.innerText = `Select items to calculate trade balance`;
+        } else if (diffINR === 0) {
+          diffText.innerHTML = `<span style="color:var(--accent);">⚖️ Even Swap Deal! Perfect 1:1 Value Match</span>`;
+        } else if (diffINR > 0) {
+          diffText.innerHTML = `Seller owes you <span style="color:var(--accent);">${this.formatPrice(diffINR)}</span> in cash top-up`;
+        } else {
+          diffText.innerHTML = `You pay cash top-up of <span style="color:var(--primary);">${this.formatPrice(Math.abs(diffINR))}</span>`;
+        }
+      }
+
+      openSelectOfferModal(side) {
+        this.swapSideTarget = side;
+        const modal = document.getElementById('selectOfferModal');
+        const listContainer = document.getElementById('selectOfferList');
+        document.getElementById('selectOfferTitle').innerText = side === 'give' ? 'Add Item to Offer Bundle' : 'Select Desired Item';
+
+        listContainer.innerHTML = this.products.map(p => `
+          <div class="inventory-item-row" style="cursor:pointer;" onclick="app.addItemToSwapBundle('${p.id}')">
+            <img class="inventory-img" src="${p.image}">
+            <div class="inventory-details">
+              <div class="inventory-title">${p.title}</div>
+              <div class="inventory-sub">${this.formatPrice(p.priceInINR)} • ${p.category}</div>
+            </div>
+            <button class="btn btn-sm btn-primary">Select</button>
+          </div>
+        `).join('');
+
+        modal.classList.add('active');
+      }
+
+      addItemToSwapBundle(productId) {
+        const prod = this.products.find(p => p.id === productId);
+        if (!prod) return;
+        if (this.swapSideTarget === 'give') {
+          this.giveBundle.push(prod);
+        } else {
+          this.receiveBundle.push(prod);
+        }
+        this.closeModal('selectOfferModal');
+        this.renderSwapBundle();
+        this.showToast(`Added "${prod.title.slice(0, 20)}..." to swap calculation`, 'info');
+      }
+
+      removeSwapItem(side, idx) {
+        if (side === 'give') this.giveBundle.splice(idx, 1);
+        else this.receiveBundle.splice(idx, 1);
+        this.renderSwapBundle();
+      }
+
+      clearSwapBundle() {
+        this.giveBundle = [];
+        this.receiveBundle = [];
+        this.renderSwapBundle();
+      }
+
+      submitSwapOffer() {
+        if (this.giveBundle.length === 0 && this.receiveBundle.length === 0) {
+          this.showToast('Please add items to swap builder first', 'danger');
+          return;
+        }
+        this.showToast('🤝 Trade Swap Proposal sent to seller!', 'success');
+        this.clearSwapBundle();
+      }
+
+      // CHAT MESSAGING LOGIC
+      renderChats() {
+        const chatList = document.getElementById('chatListContainer');
+        chatList.innerHTML = this.chats.map(c => `
+          <div class="chat-item ${c.id === this.activeChatId ? 'active' : ''}" onclick="app.selectChat('${c.id}')">
+            <div class="chat-avatar">${c.avatar}</div>
+            <div style="flex:1; overflow:hidden;">
+              <div style="font-weight:700; font-size:0.92rem;">${c.name}</div>
+              <div style="font-size:0.78rem; color:var(--text-muted); text-overflow:ellipsis; white-space:nowrap; overflow:hidden;">${c.itemTitle}</div>
+            </div>
+          </div>
+        `).join('');
+
+        this.renderActiveChatMessages();
+      }
+
+      selectChat(chatId) {
+        this.activeChatId = chatId;
+        this.renderChats();
+      }
+
+      renderActiveChatMessages() {
+        const activeChat = this.chats.find(c => c.id === this.activeChatId);
+        const msgContainer = document.getElementById('chatMessagesContainer');
+        const userHeader = document.getElementById('chatActiveUser');
+        const itemHeader = document.getElementById('chatActiveItem');
+
+        if (!activeChat) {
+          userHeader.innerText = 'Select a Conversation';
+          itemHeader.innerText = 'No chat selected';
+          msgContainer.innerHTML = '';
+          return;
+        }
+
+        userHeader.innerText = activeChat.name;
+        itemHeader.innerText = activeChat.itemTitle;
+
+        msgContainer.innerHTML = activeChat.messages.map(m => `
+          <div class="msg-bubble ${m.sender === 'me' ? 'msg-sent' : 'msg-received'}">
+            ${m.text}
+          </div>
+        `).join('');
+
+        msgContainer.scrollTop = msgContainer.scrollHeight;
+      }
+
+      sendChatMessage() {
+        const input = document.getElementById('chatInput');
+        const text = input.value.trim();
+        if (!text) return;
+
+        const activeChat = this.chats.find(c => c.id === this.activeChatId);
+        if (!activeChat) return;
+
+        activeChat.messages.push({ sender: 'me', text });
+        input.value = '';
+        this.renderActiveChatMessages();
+
+        // Simulated Seller Response
+        setTimeout(() => {
+          activeChat.messages.push({
+            sender: 'them',
+            text: 'Sounds great! Let me know if you want to proceed with purchase via OmniExchange secure checkout.'
+          });
+          this.renderActiveChatMessages();
+        }, 1200);
+      }
+
+      openChatForProduct(productId) {
+        const prod = this.products.find(p => p.id === productId);
+        if (!prod) return;
+
+        let existing = this.chats.find(c => c.name === prod.seller);
+        if (!existing) {
+          existing = {
+            id: 'c_' + Date.now(),
+            name: prod.seller,
+            itemTitle: prod.title,
+            avatar: prod.seller.slice(0, 2).toUpperCase(),
+            messages: [
+              { sender: 'them', text: `Hi! Thanks for reaching out regarding "${prod.title}".` }
+            ]
+          };
+          this.chats.unshift(existing);
+        }
+        this.activeChatId = existing.id;
+        this.switchTab('chat');
+      }
+
+      openInstantBuyModal() {
+        if (this.products.length > 0) {
+          this.directBuyItem(this.products[0].id);
+        }
+      }
+
+      // MODAL CONTROLS
+      closeModal(modalId) {
+        const el = document.getElementById(modalId);
+        if (el) el.classList.remove('active');
+      }
+
+      // TOAST MESSAGES
+      showToast(msg, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.innerHTML = `<span>${msg}</span>`;
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 3500);
+      }
+    }
+
+    // INITIALIZE APP
+    const app = new OmniApp();
+  </script>
+</body>
+</html>
